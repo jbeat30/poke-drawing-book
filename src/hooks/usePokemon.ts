@@ -37,7 +37,7 @@ export const usePokemonInfiniteList = () => {
     },
     getNextPageParam: (_lastPage, allPages) => {
       const totalLoaded = allPages.length * 20 // 로드된 총 개수
-      return totalLoaded < 1010 ? totalLoaded : undefined // 다음 페이지 파라미터 반환함
+      return totalLoaded < 1302 ? totalLoaded : undefined // 1302개 제한 (PokeAPI 전체 포켓몬 수)
     },
     initialPageParam: 0, // 초기 페이지 파라미터
   })
