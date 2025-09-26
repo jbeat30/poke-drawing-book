@@ -42,7 +42,7 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
   }
 
   return (
-    <div 
+    <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
     >
@@ -74,15 +74,19 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
             <div>
               {/* 포켓몬 이미지 */}
               <img
-                src={pokemon.sprites.other['official-artwork'].front_default ?? pokemon.sprites.front_default ?? '/images/pokemon-placeholder.png'}
+                src={
+                  pokemon.sprites.other['official-artwork'].front_default ??
+                  pokemon.sprites.front_default ??
+                  '/images/poke-placeholder.png'
+                }
                 alt={pokemon.name}
                 className="w-48 h-48 mx-auto mb-4"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement
-                  target.src = '/images/pokemon-placeholder.png'
+                  target.src = '/images/poke-placeholder.png'
                 }}
               />
-              
+
               <div className="space-y-4">
                 {/* 포켓몬 타입 정보 */}
                 <div>
@@ -127,7 +131,9 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
                             className="bg-blue-500 h-2 rounded-full"
-                            style={{ width: `${Math.min(stat.base_stat / 2, 100)}%` }}
+                            style={{
+                              width: `${Math.min(stat.base_stat / 2, 100)}%`,
+                            }}
                           ></div>
                         </div>
                       </div>

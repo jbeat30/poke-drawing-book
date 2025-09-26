@@ -1,6 +1,5 @@
-import { useInfiniteQuery, useQuery } from '@tanstack/react-query';
-import type { Pokemon, PokemonListResponse } from '../types/pokemon';
-
+import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
+import type { Pokemon, PokemonListResponse } from '../types/pokemon'
 
 const API_BASE = 'https://pokeapi.co/api/v2' // 포켓몬 API 기본 URL
 
@@ -22,7 +21,9 @@ export const usePokemonInfiniteList = () => {
     queryKey: ['pokemon-infinite-list'], // 쿼리 키
     queryFn: async ({ pageParam = 0 }): Promise<PokemonListResponse> => {
       try {
-        const response = await fetch(`${API_BASE}/pokemon?limit=20&offset=${pageParam}`)
+        const response = await fetch(
+          `${API_BASE}/pokemon?limit=20&offset=${pageParam}`
+        )
         if (!response.ok) {
           throw createApiError('포켓몬 목록 조회 실패함', response.status)
         }
@@ -49,12 +50,14 @@ export const usePokemon = (nameOrId: string | number) => {
     queryKey: ['pokemon', nameOrId], // 쿼리 키
     queryFn: async (): Promise<Pokemon> => {
       try {
-        // API 호출
         const response = await fetch(`${API_BASE}/pokemon/${nameOrId}`)
         if (!response.ok) {
-          throw createApiError(`포켓몬 조회 실패함: ${nameOrId}`, response.status)
+          throw createApiError(
+            `포켓몬 조회 실패함: ${nameOrId}`,
+            response.status
+          )
         }
-        const data = await response.json() as Pokemon
+        const data = (await response.json()) as Pokemon
         return data
       } catch (error) {
         if (error instanceof Error) {

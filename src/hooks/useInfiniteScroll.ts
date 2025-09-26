@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 // 무한 스크롤 훅 props 타입
 interface UseInfiniteScrollProps {

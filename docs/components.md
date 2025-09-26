@@ -32,9 +32,9 @@ src/
 export const HomePage = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedPokemon, setSelectedPokemon] = useState<string | null>(null)
-  
+
   const { data, fetchNextPage, hasNextPage } = usePokemonInfiniteList()
-  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-400 to-purple-600 p-8">
       <SearchBar value={searchTerm} onChange={setSearchTerm} />
@@ -50,6 +50,7 @@ export const HomePage = () => {
 재사용 가능한 작은 단위 컴포넌트
 
 #### PokemonCard
+
 ```typescript
 // src/components/PokemonCard.tsx
 interface PokemonCardProps {
@@ -59,10 +60,10 @@ interface PokemonCardProps {
 
 export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
   const { data: pokemon, isLoading } = usePokemon(name)
-  
+
   if (isLoading) return <SkeletonCard />
   if (!pokemon) return null
-  
+
   return (
     <div className="bg-white rounded-lg shadow-md p-4" onClick={onClick}>
       <img src={pokemon.sprites.front_default} />
@@ -73,6 +74,7 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
 ```
 
 #### SearchBar
+
 ```typescript
 // src/components/SearchBar.tsx
 interface SearchBarProps {
@@ -109,14 +111,14 @@ export const SearchBar = ({ value, onChange, placeholder }: SearchBarProps) => {
 
 ```typescript
 interface PokemonCardProps {
-  name: string        // 필수 props
+  name: string // 필수 props
   onClick: () => void // 이벤트 핸들러
 }
 
 interface SearchBarProps {
   value: string
   onChange: (value: string) => void
-  placeholder?: string  // 선택적 props
+  placeholder?: string // 선택적 props
 }
 ```
 
@@ -238,17 +240,17 @@ export const useInfiniteScroll = ({ hasNextPage, fetchNextPage }) => {
 interface PokemonCardProps {
   name: string
   onClick: () => void
-  className?: string    // 추가 스타일링 가능
-  showTypes?: boolean   // 타입 표시 여부 선택
+  className?: string // 추가 스타일링 가능
+  showTypes?: boolean // 타입 표시 여부 선택
 }
 ```
 
 ### 기본값 설정
 
 ```typescript
-export const SearchBar = ({ 
-  value, 
-  onChange, 
-  placeholder = "포켓몬 이름을 검색하세요..." 
+export const SearchBar = ({
+  value,
+  onChange,
+  placeholder = "포켓몬 이름을 검색하세요..."
 }: SearchBarProps) => { ... }
 ```

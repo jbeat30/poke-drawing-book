@@ -46,8 +46,10 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
   }
 
   // 이미지 URL 우선순위 정함
-  const imageUrl = pokemon.sprites.other['official-artwork'].front_default ?? pokemon.sprites.front_default
-  const fallbackImage = '/images/pokemon-placeholder.png' // 대체 이미지
+  const imageUrl =
+    pokemon.sprites.other['official-artwork'].front_default ??
+    pokemon.sprites.front_default
+  const fallbackImage = '/images/poke-placeholder.png' // 대체 이미지
 
   return (
     <div
@@ -65,7 +67,9 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
         }}
       />
       {/* 포켓몬 이름 */}
-      <h3 className="text-lg font-semibold text-center capitalize mb-2">{pokemon.name}</h3>
+      <h3 className="text-lg font-semibold text-center capitalize mb-2">
+        {pokemon.name}
+      </h3>
       {/* 포켓몬 타입들 */}
       <div className="flex justify-center gap-1">
         {pokemon.types.map((type) => (

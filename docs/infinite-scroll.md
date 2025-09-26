@@ -1,12 +1,14 @@
 # 무한 스크롤 구현 가이드
 
 무한 스크롤은 **두 가지 기술의 조합**으로 구현됩니다:
+
 1. **React Query의 useInfiniteQuery** - 데이터 관리
 2. **Intersection Observer** - 화면 감지
 
 ## 1부: 데이터 관리 (useInfiniteQuery)
 
 ### 역할
+
 - 여러 페이지 데이터를 하나로 관리
 - 자동 캐싱 및 중복 요청 방지
 - 로딩/에러 상태 관리
@@ -19,8 +21,10 @@ export const usePokemonInfiniteList = () => {
   return useInfiniteQuery({
     queryKey: ['pokemon-infinite-list'],
     queryFn: async ({ pageParam = 0 }): Promise<PokemonListResponse> => {
-      const response = await fetch(`${API_BASE}/pokemon?limit=20&offset=${pageParam}`)
-      const data = await response.json() as PokemonListResponse
+      const response = await fetch(
+        `${API_BASE}/pokemon?limit=20&offset=${pageParam}`
+      )
+      const data = (await response.json()) as PokemonListResponse
       return data
     },
     getNextPageParam: (lastPage, allPages) => {
@@ -49,6 +53,7 @@ export const usePokemonInfiniteList = () => {
 ## 2부: 화면 감지 (Intersection Observer)
 
 ### 역할
+
 - 특정 요소가 화면에 나타나는지 감지
 - 화면에 나타나면 다음 페이지 요청 트리거
 
@@ -151,30 +156,35 @@ export const HomePage = () => {
 ## 동작 흐름
 
 ### 1단계: 초기 로드
+
 - `usePokemonInfiniteList()` 호출
 - 첫 페이지 (20개) 데이터 로드
 
 ### 2단계: 사용자 스크롤
+
 - 사용자가 페이지 끝까지 스크롤
 - `loadMoreRef` div가 화면에 나타남
 
 ### 3단계: 감지 및 요청
+
 - Intersection Observer가 div 감지
 - `fetchNextPage()` 자동 호출
 - 다음 20개 데이터 로드
 
 ### 4단계: 데이터 병합
+
 - 새 데이터가 `pages` 배열에 추가
 - `flatMap`으로 하나의 배열로 합침
 - 화면에 40개 포켓몬 표시
 
 ### 5단계: 반복
+
 - 2-4단계 반복하며 계속 로드
 - 1302개 도달하면 자동 중단
 
 ## 핵심 분리 포인트
 
-| 기술 | 담당 역할 | 핵심 기능 |
-|------|----------|----------|
-| **useInfiniteQuery** | 데이터 관리 | 캐싱, 상태 관리, API 호출 |
-| **Intersection Observer** | 화면 감지 | 스크롤 감지, 트리거 실행 |
+| 기술                      | 담당 역할   | 핵심 기능                 |
+| ------------------------- | ----------- | ------------------------- |
+| **useInfiniteQuery**      | 데이터 관리 | 캐싱, 상태 관리, API 호출 |
+| **Intersection Observer** | 화면 감지   | 스크롤 감지, 트리거 실행  |
