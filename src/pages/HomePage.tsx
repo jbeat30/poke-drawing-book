@@ -65,14 +65,16 @@ export const HomePage = () => {
     navigate(`/pokemon/${name}`)
   }
 
-  // 컴포넌트 마운트 시 스크롤 위치 복원
+  // 컴포넌트 마운트 시 스크롤 위치 복원 (홈페이지에서만)
   useEffect(() => {
     if (scrollPosition > 0) {
       setTimeout(() => {
         window.scrollTo(0, scrollPosition)
+        // 복원 후 스크롤 위치 초기화
+        setScrollPosition(0)
       }, 100)
     }
-  }, [scrollPosition])
+  }, [])
 
   // 초기 로딩 중일 때 스켈레톤 UI 보여줌
   if (isLoading) {

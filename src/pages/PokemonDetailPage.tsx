@@ -46,7 +46,7 @@ export const PokemonDetailPage = () => {
   // 상세 페이지는 항상 최상단부터 시작
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [name])
+  }, [])
 
   if (isLoading) {
     return (
