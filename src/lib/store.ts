@@ -4,6 +4,7 @@ import { create } from 'zustand'
 interface AppState {
   searchTerm: string
   scrollPosition: number
+  selectedType: string
   filters: Record<string, never>
   sorting: string
 }
@@ -12,6 +13,7 @@ interface AppState {
 interface AppActions {
   setSearchTerm: (term: string) => void
   setScrollPosition: (position: number) => void
+  setSelectedType: (type: string) => void
   setFilters: (filters: Record<string, never>) => void
   setSorting: (sorting: string) => void
   resetState: () => void
@@ -24,6 +26,7 @@ type AppStore = AppState & AppActions
 const initialState: AppState = {
   searchTerm: '',
   scrollPosition: 0,
+  selectedType: '',
   filters: {},
   sorting: 'default',
 }
@@ -36,6 +39,7 @@ export const useAppStore = create<AppStore>((set) => ({
   // 액션
   setSearchTerm: (term) => set({ searchTerm: term }),
   setScrollPosition: (position) => set({ scrollPosition: position }),
+  setSelectedType: (type) => set({ selectedType: type }),
   setFilters: (filters) => set({ filters }),
   setSorting: (sorting) => set({ sorting }),
   resetState: () => set(initialState),

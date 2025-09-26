@@ -58,11 +58,17 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
         {koreanName || pokemon.name}
       </h3>
       {/* 포켓몬 타입들 */}
-      <div className="flex justify-center gap-1">
+      <div className="flex justify-center gap-2 flex-wrap">
         {pokemon.types.map((type) => (
           <span
             key={type.type.name}
-            className={`px-2 py-1 rounded-full text-xs text-white ${getTypeColor(type.type.name)}`}
+            className={`px-3 py-1.5 rounded-lg text-sm font-medium text-white shadow-sm select-none ${getTypeColor(type.type.name)}`}
+            style={{
+              fontKerning: 'none',
+              textRendering: 'optimizeLegibility',
+              WebkitFontSmoothing: 'antialiased',
+              MozOsxFontSmoothing: 'grayscale',
+            }}
           >
             {getTypeTranslation(type.type.name)}
           </span>

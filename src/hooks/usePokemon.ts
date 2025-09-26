@@ -26,7 +26,7 @@ export const usePokemonInfiniteList = () => {
     queryFn: async ({ pageParam = 0 }): Promise<PokemonListResponse> => {
       try {
         const response = await fetch(
-          `${API_BASE}/pokemon?limit=20&offset=${pageParam}`
+          `${API_BASE}/pokemon?limit=30&offset=${pageParam}`
         )
         if (!response.ok) {
           throw createApiError('포켓몬 목록 조회 실패함', response.status)
@@ -41,7 +41,7 @@ export const usePokemonInfiniteList = () => {
       }
     },
     getNextPageParam: (_lastPage, allPages) => {
-      const totalLoaded = allPages.length * 20 // 로드된 총 개수
+      const totalLoaded = allPages.length * 30 // 로드된 총 개수
       return totalLoaded < 1302 ? totalLoaded : undefined // 1302개 제한 (PokeAPI 전체 포켓몬 수)
     },
     initialPageParam: 0, // 초기 페이지 파라미터

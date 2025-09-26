@@ -18,7 +18,7 @@ export const useScrollRestoration = () => {
         try {
           window.scrollTo({
             top: scrollPosition,
-            behavior: 'instant'
+            behavior: 'instant',
           })
         } catch {
           // 구형 브라우저 호환성
@@ -43,7 +43,7 @@ export const useScrollRestoration = () => {
     try {
       window.scrollTo({
         top: 0,
-        behavior: 'instant'
+        behavior: 'instant',
       })
     } catch {
       window.scrollTo(0, 0)

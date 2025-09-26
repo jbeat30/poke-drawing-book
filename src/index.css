@@ -1,10 +1,32 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css');
 @import 'tailwindcss';
 
 body {
   margin: 0;
   font-family:
-    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
-    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    'Pretendard',
+    'Malgun Gothic',
+    '맑은 고딕',
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Roboto',
+    'Oxygen',
+    'Ubuntu',
+    'Cantarell',
+    'Fira Sans',
+    'Droid Sans',
+    'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-display: swap;
+}
+
+/* 폰트 로딩 중 깨짐 방지 */
+* {
+  font-variant-ligatures: none;
+  text-rendering: optimizeLegibility;
 }

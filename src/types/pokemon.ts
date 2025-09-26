@@ -77,3 +77,16 @@ export interface PokemonSpecies {
     name: string
   } | null
 }
+
+// 타입별 포켓몬 응답 타입
+export interface PokemonTypeResponse {
+  id: number
+  name: string
+  pokemon: Array<{
+    pokemon: {
+      name: string
+      url: string
+    }
+    slot: number
+  }>
+}
