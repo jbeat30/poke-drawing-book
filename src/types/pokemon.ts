@@ -50,3 +50,30 @@ export interface PokemonListResponse {
   next: string | null // 다음 페이지 URL
   previous: string | null // 이전 페이지 URL
 }
+
+// 포켓몬 종족 정보 타입
+export interface PokemonSpecies {
+  id: number
+  name: string
+  names: Array<{
+    name: string
+    language: {
+      name: string
+    }
+  }>
+  flavor_text_entries: Array<{
+    flavor_text: string
+    language: {
+      name: string
+    }
+    version: {
+      name: string
+    }
+  }>
+  generation: {
+    name: string
+  }
+  evolves_from_species: {
+    name: string
+  } | null
+}

@@ -1,5 +1,9 @@
 import { useInfiniteQuery, useQuery } from '@tanstack/react-query'
-import type { Pokemon, PokemonListResponse } from '../types/pokemon'
+import type {
+  Pokemon,
+  PokemonListResponse,
+  PokemonSpecies,
+} from '../types/pokemon'
 
 const API_BASE = 'https://pokeapi.co/api/v2' // 포켓몬 API 기본 URL
 
@@ -67,6 +71,32 @@ export const usePokemon = (nameOrId: string | number) => {
       }
     },
     enabled: !!nameOrId, // nameOrId가 있을 때만 실행
+  })
+}
+
+// 포켓몬 종족 정보 조회 훅
+export const usePokemonSpecies = (nameOrId: string | number) => {
+  return useQuery({
+    queryKey: ['pokemon-species', nameOrId],
+    queryFn: async (): Promise<PokemonSpecies> => {
+      try {
+        const response = await fetch(`${API_BASE}/pokemon-species/${nameOrId}`)
+        if (!response.ok) {
+          throw createApiError(
+            `포켓몬 종족 정보 조회 실패함: ${nameOrId}`,
+            response.status
+          )
+        }
+        const data = (await response.json()) as PokemonSpecies
+        return data
+      } catch (error) {
+        if (error instanceof Error) {
+          throw error
+        }
+        throw createApiError(`알 수 없는 오류 발생함: ${nameOrId}`)
+      }
+    },
+    enabled: !!nameOrId,
   })
 }
 

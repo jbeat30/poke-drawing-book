@@ -9,7 +9,7 @@ interface SearchBarProps {
 export const SearchBar = ({
   value,
   onChange,
-  placeholder = '포켓몬 이름을 검색하세요...',
+  placeholder = '포켓몬 이름을 검색하세요... (한국어/영어)',
 }: SearchBarProps) => {
   return (
     <div className="relative max-w-md mx-auto mb-8">

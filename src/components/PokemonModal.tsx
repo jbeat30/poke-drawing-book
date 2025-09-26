@@ -1,4 +1,10 @@
-import { usePokemon } from '../hooks/usePokemon'
+import { usePokemon, usePokemonSpecies } from '../hooks/usePokemon'
+import {
+  getKoreanDescription,
+  getKoreanName,
+  statTranslations,
+  typeTranslations,
+} from '../lib/translations'
 
 // 포켓몬 모달 props 타입
 interface PokemonModalProps {
@@ -9,8 +15,15 @@ interface PokemonModalProps {
 // 포켓몬 상세 정보 모달 컴포넌트
 export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
   const { data: pokemon, isLoading } = usePokemon(pokemonName ?? '') // 포켓몬 데이터 가져옴
+  const { data: species } = usePokemonSpecies(pokemonName ?? '') // 종족 데이터 가져옴
 
   if (!pokemonName) return null // 선택된 포켓몬 없으면 렌더링 안 함
+
+  // 한국어 이름과 설명 추출
+  const koreanName = species ? getKoreanName(species.names) : null
+  const koreanDescription = species
+    ? getKoreanDescription(species.flavor_text_entries)
+    : null
 
   // 타입별 색상 매핑
   const typeColors: Record<string, string> = {
@@ -50,7 +63,7 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
         <div className="p-6">
           {/* 모달 헤더 */}
           <div className="flex justify-between items-center mb-4">
-            <h2 className="text-2xl font-bold capitalize">{pokemonName}</h2>
+            <h2 className="text-2xl font-bold">{koreanName || pokemonName}</h2>
             <button
               onClick={onClose}
               className="text-gray-500 hover:text-gray-700 text-2xl"
@@ -79,7 +92,7 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
                   pokemon.sprites.front_default ??
                   '/images/poke-placeholder.png'
                 }
-                alt={pokemon.name}
+                alt={koreanName || pokemon.name}
                 className="w-48 h-48 mx-auto mb-4"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement
@@ -88,6 +101,16 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
               />
 
               <div className="space-y-4">
+                {/* 포켓몬 설명 */}
+                {koreanDescription && (
+                  <div>
+                    <h3 className="font-semibold mb-2">설명</h3>
+                    <p className="text-gray-700 text-sm leading-relaxed">
+                      {koreanDescription}
+                    </p>
+                  </div>
+                )}
+
                 {/* 포켓몬 타입 정보 */}
                 <div>
                   <h3 className="font-semibold mb-2">타입</h3>
@@ -99,7 +122,7 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
                           typeColors[type.type.name] ?? 'bg-gray-400'
                         }`}
                       >
-                        {type.type.name}
+                        {typeTranslations[type.type.name] || type.type.name}
                       </span>
                     ))}
                   </div>
@@ -124,7 +147,9 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
                     {pokemon.stats.map((stat) => (
                       <div key={stat.stat.name}>
                         <div className="flex justify-between text-sm">
-                          <span className="capitalize">{stat.stat.name}</span>
+                          <span>
+                            {statTranslations[stat.stat.name] || stat.stat.name}
+                          </span>
                           <span>{stat.base_stat}</span>
                         </div>
                         {/* 능력치 바 */}

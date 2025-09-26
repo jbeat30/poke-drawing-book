@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { PokemonCard } from '../components/PokemonCard'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { usePokemonInfiniteList } from '../hooks/usePokemon'
+import { usePokemonWithKorean } from '../hooks/usePokemonWithKorean'
 import MainLayout from '../layout/MainLayout'
 import { useAppStore } from '../lib/store'
 
@@ -41,14 +42,20 @@ export const HomePage = () => {
     return data?.pages.flatMap((page) => page.results) || []
   }, [data])
 
-  // 검색어로 필터링
-  const filteredPokemon = useMemo(() => {
-    if (!searchTerm) return allPokemon
+  // 한국어 이름 추가
+  const { pokemonWithKorean } = usePokemonWithKorean(allPokemon)
 
-    return allPokemon.filter((pokemon) =>
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  // 검색어로 필터링 (영어 + 한국어)
+  const filteredPokemon = useMemo(() => {
+    if (!searchTerm) return pokemonWithKorean
+
+    const lowerSearchTerm = searchTerm.toLowerCase()
+    return pokemonWithKorean.filter(
+      (pokemon) =>
+        pokemon.name.toLowerCase().includes(lowerSearchTerm) ||
+        (pokemon.koreanName && pokemon.koreanName.includes(searchTerm))
     )
-  }, [allPokemon, searchTerm])
+  }, [pokemonWithKorean, searchTerm])
 
   // 포켓몬 클릭 핸들러
   const handlePokemonClick = (name: string) => {

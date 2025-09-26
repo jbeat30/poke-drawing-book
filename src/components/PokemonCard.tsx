@@ -1,4 +1,5 @@
-import { usePokemon } from '../hooks/usePokemon'
+import { usePokemon, usePokemonSpecies } from '../hooks/usePokemon'
+import { getKoreanName, typeTranslations } from '../lib/translations'
 
 // 포켓몬 카드 props 타입
 interface PokemonCardProps {
@@ -9,6 +10,10 @@ interface PokemonCardProps {
 // 포켓몬 카드 컴포넌트
 export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
   const { data: pokemon, isLoading } = usePokemon(name) // 포켓몬 데이터 가져옴
+  const { data: species } = usePokemonSpecies(name) // 종족 데이터 가져옴
+
+  // 한국어 이름 추출
+  const koreanName = species ? getKoreanName(species.names) : null
 
   // 로딩 중일 때 스켈레톤 UI 보여줌
   if (isLoading) {
@@ -59,7 +64,7 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
       {/* 포켓몬 이미지 */}
       <img
         src={imageUrl ?? fallbackImage}
-        alt={pokemon.name}
+        alt={koreanName || pokemon.name}
         className="w-24 h-24 mx-auto mb-2"
         onError={(e) => {
           const target = e.target as HTMLImageElement
@@ -67,8 +72,8 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
         }}
       />
       {/* 포켓몬 이름 */}
-      <h3 className="text-lg font-semibold text-center capitalize mb-2">
-        {pokemon.name}
+      <h3 className="text-lg font-semibold text-center mb-2">
+        {koreanName || pokemon.name}
       </h3>
       {/* 포켓몬 타입들 */}
       <div className="flex justify-center gap-1">
@@ -79,7 +84,7 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
               typeColors[type.type.name] ?? 'bg-gray-400'
             }`}
           >
-            {type.type.name}
+            {typeTranslations[type.type.name] || type.type.name}
           </span>
         ))}
       </div>
