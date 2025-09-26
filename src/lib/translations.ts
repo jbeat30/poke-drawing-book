@@ -82,7 +82,11 @@ export const getStatTranslation = (statName: string): string => {
 
 // 세대 번역 가져오기 함수
 export const getGenerationTranslation = (generationName: string): string => {
-  return generationTranslations[generationName as keyof typeof generationTranslations] || generationName
+  return (
+    generationTranslations[
+      generationName as keyof typeof generationTranslations
+    ] || generationName
+  )
 }
 
 // Species에서 한국어 이름 추출

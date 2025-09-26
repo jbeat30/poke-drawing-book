@@ -5,21 +5,20 @@ import { PokemonCard } from '../components/PokemonCard'
 import { useInfiniteScroll } from '../hooks/useInfiniteScroll'
 import { usePokemonInfiniteList } from '../hooks/usePokemon'
 import { usePokemonWithKorean } from '../hooks/usePokemonWithKorean'
+import { useScrollRestoration } from '../hooks/useScrollRestoration'
 import MainLayout from '../layout/MainLayout'
 import { useAppStore } from '../lib/store'
 
 export const HomePage = () => {
   const navigate = useNavigate()
+  const { saveScrollPosition, restoreScrollPosition } = useScrollRestoration()
 
-  const { searchTerm, scrollPosition, setSearchTerm, setScrollPosition } =
-    useAppStore(
-      useShallow((state) => ({
-        searchTerm: state.searchTerm,
-        scrollPosition: state.scrollPosition,
-        setSearchTerm: state.setSearchTerm,
-        setScrollPosition: state.setScrollPosition,
-      }))
-    )
+  const { searchTerm, setSearchTerm } = useAppStore(
+    useShallow((state) => ({
+      searchTerm: state.searchTerm,
+      setSearchTerm: state.setSearchTerm,
+    }))
+  )
 
   // 무한 스크롤 데이터 가져옴
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
@@ -60,21 +59,15 @@ export const HomePage = () => {
   // 포켓몬 클릭 핸들러
   const handlePokemonClick = (name: string) => {
     // 현재 스크롤 위치 저장
-    setScrollPosition(window.scrollY)
+    saveScrollPosition()
     // 상세 페이지로 이동
     navigate(`/pokemon/${name}`)
   }
 
-  // 컴포넌트 마운트 시 스크롤 위치 복원 (홈페이지에서만)
+  // 컴포넌트 마운트 시 스크롤 위치 복원
   useEffect(() => {
-    if (scrollPosition > 0) {
-      setTimeout(() => {
-        window.scrollTo(0, scrollPosition)
-        // 복원 후 스크롤 위치 초기화
-        setScrollPosition(0)
-      }, 100)
-    }
-  }, [])
+    restoreScrollPosition()
+  }, [restoreScrollPosition])
 
   // 초기 로딩 중일 때 스켈레톤 UI 보여줌
   if (isLoading) {

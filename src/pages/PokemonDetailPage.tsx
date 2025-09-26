@@ -2,24 +2,22 @@ import { useEffect } from 'react'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { useNavigate, useParams } from 'react-router-dom'
 import { usePokemonDetail, usePokemonSpecies } from '../hooks/usePokemon'
+import { useScrollRestoration } from '../hooks/useScrollRestoration'
 import { SEOHead } from '../layout'
 import MainLayout from '../layout/MainLayout'
-import { useAppStore } from '../lib/store'
 import {
+  getGenerationTranslation,
   getKoreanDescription,
   getKoreanName,
   getStatTranslation,
   getTypeColor,
   getTypeTranslation,
-  getGenerationTranslation,
 } from '../lib/translations'
 
 export const PokemonDetailPage = () => {
   const { name } = useParams<{ name: string }>()
   const navigate = useNavigate()
-
-  // 단일 상태 선택 - useShallow 불필요
-  const scrollPosition = useAppStore((state) => state.scrollPosition)
+  const { scrollToTop } = useScrollRestoration()
 
   const { data: pokemon, isLoading, error } = usePokemonDetail(name || '')
   const { data: species } = usePokemonSpecies(name || '')
@@ -37,16 +35,12 @@ export const PokemonDetailPage = () => {
   // 뒤로가기 함수
   const handleGoBack = () => {
     navigate('/', { replace: true })
-    // 스크롤 위치 복원
-    setTimeout(() => {
-      window.scrollTo(0, scrollPosition)
-    }, 100)
   }
 
   // 상세 페이지는 항상 최상단부터 시작
   useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
+    scrollToTop()
+  })
 
   if (isLoading) {
     return (
