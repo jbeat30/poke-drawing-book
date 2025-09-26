@@ -1,5 +1,9 @@
 import { usePokemon, usePokemonSpecies } from '../hooks/usePokemon'
-import { getKoreanName, typeTranslations } from '../lib/translations'
+import {
+  getKoreanName,
+  getTypeColor,
+  getTypeTranslation,
+} from '../lib/translations'
 
 // 포켓몬 카드 props 타입
 interface PokemonCardProps {
@@ -27,28 +31,6 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
   }
 
   if (!pokemon) return null // 데이터 없으면 렌더링 안 함
-
-  // 타입별 색상 매핑
-  const typeColors: Record<string, string> = {
-    normal: 'bg-gray-400',
-    fire: 'bg-red-500',
-    water: 'bg-blue-500',
-    electric: 'bg-yellow-400',
-    grass: 'bg-green-500',
-    ice: 'bg-blue-200',
-    fighting: 'bg-red-700',
-    poison: 'bg-purple-500',
-    ground: 'bg-yellow-600',
-    flying: 'bg-indigo-400',
-    psychic: 'bg-pink-500',
-    bug: 'bg-green-400',
-    rock: 'bg-yellow-800',
-    ghost: 'bg-purple-700',
-    dragon: 'bg-indigo-700',
-    dark: 'bg-gray-800',
-    steel: 'bg-gray-500',
-    fairy: 'bg-pink-300',
-  }
 
   // 이미지 URL 우선순위 정함
   const imageUrl =
@@ -80,11 +62,9 @@ export const PokemonCard = ({ name, onClick }: PokemonCardProps) => {
         {pokemon.types.map((type) => (
           <span
             key={type.type.name}
-            className={`px-2 py-1 rounded-full text-xs text-white ${
-              typeColors[type.type.name] ?? 'bg-gray-400'
-            }`}
+            className={`px-2 py-1 rounded-full text-xs text-white ${getTypeColor(type.type.name)}`}
           >
-            {typeTranslations[type.type.name] || type.type.name}
+            {getTypeTranslation(type.type.name)}
           </span>
         ))}
       </div>

@@ -1,6 +1,6 @@
 import { useQueries } from '@tanstack/react-query'
-import type { PokemonListItem, PokemonSpecies } from '../types/pokemon'
 import { getKoreanName } from '../lib/translations'
+import type { PokemonListItem, PokemonSpecies } from '../types/pokemon'
 
 const API_BASE = 'https://pokeapi.co/api/v2'
 
@@ -15,7 +15,9 @@ export const usePokemonWithKorean = (pokemonList: PokemonListItem[]) => {
     queries: pokemonList.map((pokemon) => ({
       queryKey: ['pokemon-species', pokemon.name],
       queryFn: async (): Promise<PokemonSpecies> => {
-        const response = await fetch(`${API_BASE}/pokemon-species/${pokemon.name}`)
+        const response = await fetch(
+          `${API_BASE}/pokemon-species/${pokemon.name}`
+        )
         if (!response.ok) throw new Error('Species fetch failed')
         return response.json()
       },
@@ -24,17 +26,21 @@ export const usePokemonWithKorean = (pokemonList: PokemonListItem[]) => {
   })
 
   // 한국어 이름이 추가된 포켓몬 목록 반환
-  const pokemonWithKorean: PokemonWithKorean[] = pokemonList.map((pokemon, index) => {
-    const speciesData = queries[index]?.data
-    const koreanName = speciesData ? getKoreanName(speciesData.names) || undefined : undefined
-    
-    return {
-      ...pokemon,
-      koreanName,
-    }
-  })
+  const pokemonWithKorean: PokemonWithKorean[] = pokemonList.map(
+    (pokemon, index) => {
+      const speciesData = queries[index]?.data
+      const koreanName = speciesData
+        ? getKoreanName(speciesData.names) || undefined
+        : undefined
 
-  const isLoading = queries.some(query => query.isLoading)
+      return {
+        ...pokemon,
+        koreanName,
+      }
+    }
+  )
+
+  const isLoading = queries.some((query) => query.isLoading)
 
   return { pokemonWithKorean, isLoading }
 }

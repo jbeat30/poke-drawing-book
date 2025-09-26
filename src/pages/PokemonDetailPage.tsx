@@ -6,11 +6,12 @@ import { SEOHead } from '../layout'
 import MainLayout from '../layout/MainLayout'
 import { useAppStore } from '../lib/store'
 import {
-  generationTranslations,
   getKoreanDescription,
   getKoreanName,
-  statTranslations,
-  typeTranslations,
+  getStatTranslation,
+  getTypeColor,
+  getTypeTranslation,
+  getGenerationTranslation,
 } from '../lib/translations'
 
 export const PokemonDetailPage = () => {
@@ -29,31 +30,9 @@ export const PokemonDetailPage = () => {
     ? getKoreanDescription(species.flavor_text_entries)
     : null
   const generation = species
-    ? generationTranslations[species.generation.name]
+    ? getGenerationTranslation(species.generation.name)
     : null
   const evolvesFrom = species?.evolves_from_species?.name || null
-
-  // 타입별 색상 매핑
-  const typeColors: Record<string, string> = {
-    normal: 'bg-gray-400',
-    fire: 'bg-red-500',
-    water: 'bg-blue-500',
-    electric: 'bg-yellow-400',
-    grass: 'bg-green-500',
-    ice: 'bg-blue-200',
-    fighting: 'bg-red-700',
-    poison: 'bg-purple-500',
-    ground: 'bg-yellow-600',
-    flying: 'bg-indigo-400',
-    psychic: 'bg-pink-500',
-    bug: 'bg-green-400',
-    rock: 'bg-yellow-800',
-    ghost: 'bg-purple-700',
-    dragon: 'bg-indigo-700',
-    dark: 'bg-gray-800',
-    steel: 'bg-gray-500',
-    fairy: 'bg-pink-300',
-  }
 
   // 뒤로가기 함수
   const handleGoBack = () => {
@@ -103,7 +82,7 @@ export const PokemonDetailPage = () => {
         title={koreanName || pokemon.name}
         description={
           koreanDescription ||
-          `${pokemon.types.map((t) => typeTranslations[t.type.name] || t.type.name).join(', ')} 타입 포켓몬 ${koreanName || pokemon.name}의 상세 정보`
+          `${pokemon.types.map((t) => getTypeTranslation(t.type.name)).join(', ')} 타입 포켓몬 ${koreanName || pokemon.name}의 상세 정보`
         }
         image={
           pokemon.sprites.other['official-artwork'].front_default ||
@@ -143,11 +122,9 @@ export const PokemonDetailPage = () => {
                 {pokemon.types.map((type) => (
                   <span
                     key={type.type.name}
-                    className={`px-3 py-1 rounded-full text-sm text-white ${
-                      typeColors[type.type.name] ?? 'bg-gray-400'
-                    }`}
+                    className={`px-3 py-1 rounded-full text-sm text-white ${getTypeColor(type.type.name)}`}
                   >
-                    {typeTranslations[type.type.name] || type.type.name}
+                    {getTypeTranslation(type.type.name)}
                   </span>
                 ))}
               </div>
@@ -204,9 +181,7 @@ export const PokemonDetailPage = () => {
                   {pokemon.stats.map((stat) => (
                     <div key={stat.stat.name}>
                       <div className="flex justify-between mb-1">
-                        <span>
-                          {statTranslations[stat.stat.name] || stat.stat.name}
-                        </span>
+                        <span>{getStatTranslation(stat.stat.name)}</span>
                         <span>{stat.base_stat}</span>
                       </div>
                       <div className="w-full bg-white/20 rounded-full h-2">

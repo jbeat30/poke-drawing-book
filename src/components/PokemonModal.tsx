@@ -2,8 +2,9 @@ import { usePokemon, usePokemonSpecies } from '../hooks/usePokemon'
 import {
   getKoreanDescription,
   getKoreanName,
-  statTranslations,
-  typeTranslations,
+  getStatTranslation,
+  getTypeColor,
+  getTypeTranslation,
 } from '../lib/translations'
 
 // 포켓몬 모달 props 타입
@@ -24,28 +25,6 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
   const koreanDescription = species
     ? getKoreanDescription(species.flavor_text_entries)
     : null
-
-  // 타입별 색상 매핑
-  const typeColors: Record<string, string> = {
-    normal: 'bg-gray-400',
-    fire: 'bg-red-500',
-    water: 'bg-blue-500',
-    electric: 'bg-yellow-400',
-    grass: 'bg-green-500',
-    ice: 'bg-blue-200',
-    fighting: 'bg-red-700',
-    poison: 'bg-purple-500',
-    ground: 'bg-yellow-600',
-    flying: 'bg-indigo-400',
-    psychic: 'bg-pink-500',
-    bug: 'bg-green-400',
-    rock: 'bg-yellow-800',
-    ghost: 'bg-purple-700',
-    dragon: 'bg-indigo-700',
-    dark: 'bg-gray-800',
-    steel: 'bg-gray-500',
-    fairy: 'bg-pink-300',
-  }
 
   // 배경 클릭 시 모달 닫기 핸들러
   const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -118,11 +97,9 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
                     {pokemon.types.map((type) => (
                       <span
                         key={type.type.name}
-                        className={`px-3 py-1 rounded-full text-white ${
-                          typeColors[type.type.name] ?? 'bg-gray-400'
-                        }`}
+                        className={`px-3 py-1 rounded-full text-white ${getTypeColor(type.type.name)}`}
                       >
-                        {typeTranslations[type.type.name] || type.type.name}
+                        {getTypeTranslation(type.type.name)}
                       </span>
                     ))}
                   </div>
@@ -147,9 +124,7 @@ export const PokemonModal = ({ pokemonName, onClose }: PokemonModalProps) => {
                     {pokemon.stats.map((stat) => (
                       <div key={stat.stat.name}>
                         <div className="flex justify-between text-sm">
-                          <span>
-                            {statTranslations[stat.stat.name] || stat.stat.name}
-                          </span>
+                          <span>{getStatTranslation(stat.stat.name)}</span>
                           <span>{stat.base_stat}</span>
                         </div>
                         {/* 능력치 바 */}
