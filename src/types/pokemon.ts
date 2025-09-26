@@ -17,10 +17,22 @@ export interface Pokemon {
   }>
   height: number // 키
   weight: number // 몸무게
+  base_experience: number | null // 기본 경험치
   stats: Array<{
     base_stat: number // 기본 능력치
     stat: {
       name: string // 능력치 이름
+    }
+  }>
+  abilities: Array<{
+    ability: {
+      name: string // 특성 이름
+    }
+    is_hidden: boolean // 숨겨진 특성 여부
+  }>
+  moves: Array<{
+    move: {
+      name: string // 기술 이름
     }
   }>
 }

@@ -10,6 +10,9 @@ importers:
       '@dr.pogodin/react-helmet':
         specifier: ^3.0.4
         version: 3.0.4(react@19.1.1)
+      '@heroicons/react':
+        specifier: ^2.2.0
+        version: 2.2.0(react@19.1.1)
       '@tanstack/react-query':
         specifier: ^5.90.2
         version: 5.90.2(react@19.1.1)
@@ -437,6 +440,14 @@ packages:
         integrity: sha512-uhCbYtYynH30iZErszX78U+nR3pJU3RHGQ57NXy5QupD4SBVwDeU8TNBy+MjMngc1UyIW9noKqsRqfjQTBU2dw==,
       }
     engines: { node: ^18.18.0 || ^20.9.0 || >=21.1.0 }
+
+  '@heroicons/react@2.2.0':
+    resolution:
+      {
+        integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==,
+      }
+    peerDependencies:
+      react: '>= 16 || ^19.0.0-rc'
 
   '@humanwhocodes/config-array@0.13.0':
     resolution:
@@ -2499,6 +2510,10 @@ snapshots:
   '@eslint/js@8.57.1': {}
 
   '@eslint/js@9.36.0': {}
+
+  '@heroicons/react@2.2.0(react@19.1.1)':
+    dependencies:
+      react: 19.1.1
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:

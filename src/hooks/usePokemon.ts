@@ -69,3 +69,8 @@ export const usePokemon = (nameOrId: string | number) => {
     enabled: !!nameOrId, // nameOrId가 있을 때만 실행
   })
 }
+
+// 포켓몬 상세 정보 조회 훅 (usePokemon과 동일하지만 명시적 이름)
+export const usePokemonDetail = (nameOrId: string | number) => {
+  return usePokemon(nameOrId)
+}

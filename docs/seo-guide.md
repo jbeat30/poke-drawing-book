@@ -206,11 +206,13 @@ WARN Issues with peer dependencies found
 
 ```tsx
 <Helmet
-    meta={[
-        { name: 'description', content: description },
-        ...(isArticle ? [{ property: 'og:type', content: 'article' }] : []),
-        ...(publishDate ? [{ property: 'article:published_time', content: publishDate }] : [])
-    ]}
+  meta={[
+    { name: 'description', content: description },
+    ...(isArticle ? [{ property: 'og:type', content: 'article' }] : []),
+    ...(publishDate
+      ? [{ property: 'article:published_time', content: publishDate }]
+      : []),
+  ]}
 />
 ```
 
